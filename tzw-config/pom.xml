@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>com.springcloud.study</groupId>
-        <artifactId>tzw-spring-cloud</artifactId>
+        <artifactId>tzw</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
