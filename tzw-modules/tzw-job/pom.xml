@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tzw-job</artifactId>
+    <artifactId>tzw-modules-job</artifactId>
     <description>job定时任务</description>
 
     <dependencies>
