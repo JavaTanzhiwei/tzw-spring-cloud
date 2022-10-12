@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.redisson:redisson-spring-data-27:3.17.5">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../javatools/maven/depo/org/redisson/redisson-spring-data-27/3.17.5/redisson-spring-data-27-3.17.5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../javatools/maven/depo/org/redisson/redisson-spring-data-27/3.17.5/redisson-spring-data-27-3.17.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../javatools/maven/depo/org/redisson/redisson-spring-data-27/3.17.5/redisson-spring-data-27-3.17.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
