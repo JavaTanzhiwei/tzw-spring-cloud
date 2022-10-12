@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      name: tzwGateWay,tzwConfig
+      profile: dev
+      uri: http://localhost:8001
+      label: master

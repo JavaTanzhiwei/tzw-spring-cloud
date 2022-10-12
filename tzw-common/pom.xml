@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tzw</artifactId>
+        <groupId>com.springcloud.study</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>tzw-common</artifactId>
+    <packaging>pom</packaging>
+    <description>通用工具</description>
+
+    <!--子模块-->
+    <modules>
+        <module>tzw-common-bom</module>
+        <module>tzw-common-core</module>
+        <module>tzw-common-mybatis</module>
+        <module>tzw-common-redis</module>
+        <module>tzw-common-log</module>
+        <module>tzw-common-security</module>
+        <module>tzw-common-kafka</module>
+        <module>tzw-common-websocket</module>
+    </modules>
+</project>

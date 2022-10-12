@@ -1,0 +1,14 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+  cloud:
+    config:
+      name: tzwAuth,tzwConfig
+      profile: dev
+      uri: http://localhost:8001
+      label: master

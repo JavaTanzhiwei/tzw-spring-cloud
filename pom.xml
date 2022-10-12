@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.springcloud.study</groupId>
+    <artifactId>tzw</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <modules>
+        <!-- 微服务配置中心 -->
+        <module>tzw-config</module>
+        <module>tzw-eureka</module>
+        <module>tzw-common</module>
+        <module>tzw-modules</module>
+        <module>tzw-gateway</module>
+        <module>tzw-auth</module>
+        <module>tzw-api</module>
+        <module>tzw-kafka</module>
+        <module>tzw-tools</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <tanzhiwei.version>1.0.0-SNAPSHOT</tanzhiwei.version>
+        <!-- 编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- java -->
+        <java.version>1.8</java.version>
+        <!-- Spring Boot -->
+        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <!--Spring cloud-->
+        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+        <!-- lombok插件 -->
+        <lombok-maven-plugin.version>1.18.20.0</lombok-maven-plugin.version>
+        <mybatis.version>2.2.0</mybatis.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <mybatis-plus-join.version>1.2.4</mybatis-plus-join.version>
+        <!-- hutool -->
+        <hutool.version>5.8.5</hutool.version>
+        <redisson.version>3.17.5</redisson.version>
+        <lock4j.version>2.2.2</lock4j.version>
+        <!--sa-token权限认证-->
+        <satoken.version>1.31.0</satoken.version>
+        <!--kafka-->
+        <kafka.version>2.8.5</kafka.version>
+        <kafka-clients.version>3.1.0</kafka-clients.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--common 的依赖配置-->
+            <dependency>
+                <groupId>com.springcloud.study</groupId>
+                <artifactId>tzw-common-bom</artifactId>
+                <version>${tanzhiwei.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- api 的依赖配置-->
+            <dependency>
+                <groupId>com.springcloud.study</groupId>
+                <artifactId>tzw-api-bom</artifactId>
+                <version>${tanzhiwei.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--SpringBoot 依赖配置-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--SpringCloud 微服务-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--lombok插件-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>${lombok-maven-plugin.version}</version>
+            </dependency>
+            <!--引入 mybatis 的依赖-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!--mybatis-plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--mybatis-plus-join-->
+            <dependency>
+                <groupId>com.github.yulichang</groupId>
+                <artifactId>mybatis-plus-join</artifactId>
+                <version>${mybatis-plus-join.version}</version>
+            </dependency>
+            <!--hutool 的依赖配置-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--redisson-->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>lock4j-redisson-spring-boot-starter</artifactId>
+                <version>${lock4j.version}</version>
+            </dependency>
+            <!--sa-token权限认证-->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-core</artifactId>
+                <version>${satoken.version}</version>
+            </dependency>
+            <!--kafka-->
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${kafka.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>${kafka-clients.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.9.0</version>
+                <!--下面指定为自己需要的版本-->
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

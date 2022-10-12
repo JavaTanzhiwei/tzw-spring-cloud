@@ -1,0 +1,198 @@
+package com.springcloud.study.core.utils;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.SimpleCache;
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import org.springframework.cglib.beans.BeanCopier;
+import org.springframework.cglib.beans.BeanMap;
+import org.springframework.cglib.core.Converter;
+
+import java.util.List;
+import java.util.Map;
+
+import static cn.hutool.core.bean.BeanUtil.copyProperties;
+
+/**
+ * 类 描 述: bean深拷贝工具
+ * 作   者: 谭志伟
+ * 时   间: 2022/9/21  14:05
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class BeanCopyUtils {
+    /**
+     * 单对象基于class创建拷贝
+     *
+     * @param source 数据来源实体
+     * @param desc   描述对象 转换后的对象
+     * @return desc
+     */
+    public static <T, V> V copy(T source, Class<V> desc) {
+        if (ObjectUtil.isNull(source)) {
+            return null;
+        }
+        if (ObjectUtil.isNull(desc)) {
+            return null;
+        }
+        final V target = ReflectUtil.newInstanceIfPossible(desc);
+        return copy(source, target);
+    }
+
+    /**
+     * 单对象基于对象创建拷贝
+     *
+     * @param source 数据来源实体
+     * @param desc   转换后的对象
+     * @return desc
+     */
+    public static <T, V> V copy(T source, V desc) {
+        if (ObjectUtil.isNull(source)) {
+            return null;
+        }
+        if (ObjectUtil.isNull(desc)) {
+            return null;
+        }
+        BeanCopier beanCopier = BeanCopierCache.INSTANCE.get(source.getClass(), desc.getClass(), null);
+        beanCopier.copy(source, desc, null);
+        return desc;
+    }
+
+    /**
+     * Bean属性复制工具方法。
+     *
+     * @param dest 目标对象
+     * @param src 源对象
+     */
+    public static void copyBeanProp(Object dest, Object src)
+    {
+        try
+        {
+            copyProperties(src, dest);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 列表对象基于class创建拷贝
+     *
+     * @param sourceList 数据来源实体列表
+     * @param desc       描述对象 转换后的对象
+     * @return desc
+     */
+    public static <T, V> List<V> copyList(List<T> sourceList, Class<V> desc) {
+        if (ObjectUtil.isNull(sourceList)) {
+            return null;
+        }
+        if (CollUtil.isEmpty(sourceList)) {
+            return CollUtil.newArrayList();
+        }
+        return StreamUtils.toList(sourceList, source -> {
+            V target = ReflectUtil.newInstanceIfPossible(desc);
+            copy(source, target);
+            return target;
+        });
+    }
+
+    /**
+     * bean拷贝到map
+     *
+     * @param bean 数据来源实体
+     * @return map对象
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Map<String, Object> copyToMap(T bean) {
+        if (ObjectUtil.isNull(bean)) {
+            return null;
+        }
+        return BeanMap.create(bean);
+    }
+
+    /**
+     * map拷贝到bean
+     *
+     * @param map       数据来源
+     * @param beanClass bean类
+     * @return bean对象
+     */
+    public static <T> T mapToBean(Map<String, Object> map, Class<T> beanClass) {
+        if (MapUtil.isEmpty(map)) {
+            return null;
+        }
+        if (ObjectUtil.isNull(beanClass)) {
+            return null;
+        }
+        T bean = ReflectUtil.newInstanceIfPossible(beanClass);
+        return mapToBean(map, bean);
+    }
+
+    /**
+     * map拷贝到bean
+     *
+     * @param map  数据来源
+     * @param bean bean对象
+     * @return bean对象
+     */
+    public static <T> T mapToBean(Map<String, Object> map, T bean) {
+        if (MapUtil.isEmpty(map)) {
+            return null;
+        }
+        if (ObjectUtil.isNull(bean)) {
+            return null;
+        }
+        BeanMap.create(bean).putAll(map);
+        return bean;
+    }
+
+    /**
+     * BeanCopier属性缓存<br>
+     * 缓存用于防止多次反射造成的性能问题
+     *
+     * @author Looly
+     * @since 5.4.1
+     */
+    public enum BeanCopierCache {
+        /**
+         * BeanCopier属性缓存单例
+         */
+        INSTANCE;
+
+        private final SimpleCache<String, BeanCopier> cache = new SimpleCache<>();
+
+        /**
+         * 获得类与转换器生成的key在{@link BeanCopier}的Map中对应的元素
+         *
+         * @param srcClass    源Bean的类
+         * @param targetClass 目标Bean的类
+         * @param converter   转换器
+         * @return Map中对应的BeanCopier
+         */
+        public BeanCopier get(Class<?> srcClass, Class<?> targetClass, Converter converter) {
+            final String key = genKey(srcClass, targetClass, converter);
+            return cache.get(key, () -> BeanCopier.create(srcClass, targetClass, converter != null));
+        }
+
+        /**
+         * 获得类与转换器生成的key
+         *
+         * @param srcClass    源Bean的类
+         * @param targetClass 目标Bean的类
+         * @param converter   转换器
+         * @return 属性名和Map映射的key
+         */
+        private String genKey(Class<?> srcClass, Class<?> targetClass, Converter converter) {
+            final StringBuilder key = StrUtil.builder()
+                    .append(srcClass.getName()).append('#').append(targetClass.getName());
+            if(null != converter){
+                key.append('#').append(converter.getClass().getName());
+            }
+            return key.toString();
+        }
+    }
+}

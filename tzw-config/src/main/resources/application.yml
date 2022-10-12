@@ -1,0 +1,47 @@
+server:
+  port: 8001 #端口号
+
+spring:
+  application:
+    name: tzwConfig # 应用名称
+  profiles:
+    active: dev
+  # 配置中心
+  cloud:
+    config:
+      overrideNone: true
+      server:
+        native:
+          search-locations: classpath:/config
+        git:
+          uri: https://gitee.com/JavaTanzhiwei/tzw-spring-cloud-config.git #git地址
+          # 如果你的仓库是公开的则无需配置用户名以及密码
+          # username: ****** # git账号名
+          # password: ****** # git账号密码
+# 注册中心配置
+eureka:
+  client: #客户端注册进eureka服务列表内
+    healthcheck:
+      # 允许上报服务状态
+      enabled: true
+    register-with-eureka: true #false表示不向注册中心注册自己
+    fetch-registry: true #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    service-url:
+      defaultZone: http://tzw:123456@localhost:8002/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}-${server.port}-${random.int}
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+    prefer-ip-address: true #访问路径可以显示IP地址
+logging:
+  config: classpath:log4j2.xml
+  level:
+    web: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
