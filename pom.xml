@@ -8,20 +8,7 @@
     <artifactId>tzw-spring-cloud</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
-    <modules>
-        <!-- 微服务配置中心 -->
-        <module>tzw-config</module>
-        <module>tzw-eureka</module>
-        <module>tzw-common</module>
-        <module>tzw-modules</module>
-        <module>tzw-gateway</module>
-        <module>tzw-auth</module>
-        <module>tzw-api</module>
-        <module>tzw-kafka</module>
-        <module>tzw-tools</module>
-    </modules>
-    <packaging>pom</packaging>
-
+    <!--版本管理-->
     <properties>
         <tanzhiwei.version>1.0.0-SNAPSHOT</tanzhiwei.version>
         <!-- 编码 -->
@@ -49,6 +36,7 @@
         <kafka-clients.version>3.1.0</kafka-clients.version>
     </properties>
 
+    <!--依赖声明-->
     <dependencyManagement>
         <dependencies>
             <!--common 的依赖配置-->
@@ -143,6 +131,29 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <!--子模块-->
+    <modules>
+        <!--配置中心-->
+        <module>tzw-config</module>
+        <!--注册中心-->
+        <module>tzw-eureka</module>
+        <!--公共模块-->
+        <module>tzw-common</module>
+        <!--业务模块-->
+        <module>tzw-modules</module>
+        <!--网关路由-->
+        <module>tzw-gateway</module>
+        <!--权限认证-->
+        <module>tzw-auth</module>
+        <!--公共API-->
+        <module>tzw-api</module>
+        <!--消息队列-->
+        <module>tzw-kafka</module>
+        <!--工具模块-WebSocket......-->
+        <module>tzw-tools</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <build>
         <plugins>
