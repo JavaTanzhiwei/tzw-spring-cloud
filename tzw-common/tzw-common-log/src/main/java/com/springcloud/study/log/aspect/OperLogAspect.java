@@ -36,9 +36,12 @@ import java.util.stream.Collectors;
 @Component
 public class OperLogAspect {
 
-    // 配置织入点
+    /**
+     * 配置织入点
+     */
     @Pointcut("@annotation(com.springcloud.study.log.annotation.OperLog)")
     public void logPointCut() {
+        log.info("切面{}的织入点========", "OperLogAspect");
     }
 
     /**
