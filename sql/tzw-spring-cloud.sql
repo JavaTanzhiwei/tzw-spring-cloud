@@ -11,11 +11,104 @@
  Target Server Version : 50734
  File Encoding         : 65001
 
- Date: 08/10/2022 17:21:18
+ Date: 13/10/2022 17:31:50
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for sys_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_config`;
+CREATE TABLE `sys_config`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '参数主键',
+  `config_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '参数名称',
+  `config_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '参数键名',
+  `config_value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '参数键值',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '参数配置表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_config
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dept`;
+CREATE TABLE `sys_dept`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '部门id',
+  `parent_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '父部门id',
+  `ancestors` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '祖级列表',
+  `dept_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '部门名称',
+  `order_num` int(4) NULL DEFAULT 0 COMMENT '显示顺序',
+  `leader` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '负责人',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '联系电话',
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '部门状态（0正常 1停用）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '部门表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dept
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_dict_data
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_data`;
+CREATE TABLE `sys_dict_data`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典编码',
+  `dict_sort` int(4) NULL DEFAULT 0 COMMENT '字典排序',
+  `dict_label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '字典标签',
+  `dict_value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '字典键值',
+  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '字典类型',
+  `is_default` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT 'N' COMMENT '是否默认（Y是 N否）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_dict_type
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict_type`;
+CREATE TABLE `sys_dict_type`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典主键',
+  `dict_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '字典名称',
+  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '字典类型',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_type
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_job
@@ -184,6 +277,37 @@ INSERT INTO `sys_job_log` VALUES ('fb40e6691c144ef784092f4b225e2f26', '定时读
 INSERT INTO `sys_job_log` VALUES ('ffd697e53408f49dce35d8b4235eac1f', '定时读取用户信息', 'DEFAULT', 'tzwTask.getUserInfo', '定时读取用户信息 总共耗时：10毫秒', '0', '', NULL);
 
 -- ----------------------------
+-- Table structure for sys_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '菜单ID',
+  `menu_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '菜单名称',
+  `parent_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '父菜单ID',
+  `order_num` int(4) NULL DEFAULT 0 COMMENT '显示顺序',
+  `path` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '路由地址',
+  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '组件路径',
+  `query` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '路由参数',
+  `is_frame` int(1) NULL DEFAULT 1 COMMENT '是否为外链（0是 1否）',
+  `is_cache` int(1) NULL DEFAULT 0 COMMENT '是否缓存（0缓存 1不缓存）',
+  `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '菜单类型（M目录 C菜单 F按钮）',
+  `visible` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '菜单状态（0正常 1停用）',
+  `perms` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '权限标识',
+  `icon` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '#' COMMENT '菜单图标',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_menu
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for sys_oper_log_login
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_oper_log_login`;
@@ -203,9 +327,133 @@ CREATE TABLE `sys_oper_log_login`  (
 -- ----------------------------
 -- Records of sys_oper_log_login
 -- ----------------------------
+INSERT INTO `sys_oper_log_login` VALUES ('0438bda8b2340100fe3c39c85b71ef0d', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:20:11');
+INSERT INTO `sys_oper_log_login` VALUES ('052f3f369321abb2cce0484f10801600', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:45');
+INSERT INTO `sys_oper_log_login` VALUES ('058f9ae4acea7b421234ba5a2e1d324a', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:42:33');
+INSERT INTO `sys_oper_log_login` VALUES ('061f05f993cc852b9328f040ee153a94', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:05:07');
+INSERT INTO `sys_oper_log_login` VALUES ('0622c686462e315788d3fff45e85441a', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:42');
+INSERT INTO `sys_oper_log_login` VALUES ('0ea48e811deaf2f3b4249202fa0526fb', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:05:50');
+INSERT INTO `sys_oper_log_login` VALUES ('0eea35dcaca106b92189e9079c2e1f78', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:21');
+INSERT INTO `sys_oper_log_login` VALUES ('0f77d72c0df2cb6d0314b6c565ebea62', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:06:20');
+INSERT INTO `sys_oper_log_login` VALUES ('108368a9b0004c0a456d5b4a040f8762', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-10 17:50:35');
+INSERT INTO `sys_oper_log_login` VALUES ('12b1129dd841e88f49ab72235421b65a', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:50');
+INSERT INTO `sys_oper_log_login` VALUES ('1521132a396f9f0c6ae213d4d6c2e1d4', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:41:07');
+INSERT INTO `sys_oper_log_login` VALUES ('156e4e207a8008f9f5fe40964ae7f21b', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:56');
 INSERT INTO `sys_oper_log_login` VALUES ('163268e71dd0bbe2ee307c6b5b78ea99', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-08 16:46:22');
+INSERT INTO `sys_oper_log_login` VALUES ('16526bb0a433db0c1877fe6d8d02ca09', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 17:39:00');
+INSERT INTO `sys_oper_log_login` VALUES ('166a1571bb8bafa8151f6e17a8aa0284', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '退出成功', '2022-10-09 17:41:19');
+INSERT INTO `sys_oper_log_login` VALUES ('1a8fb298065eeadfe3159ad40db06a3e', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '退出成功', '2022-10-09 17:41:48');
+INSERT INTO `sys_oper_log_login` VALUES ('1af2e768bf0b61ff65a562835e06fba3', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:56:29');
+INSERT INTO `sys_oper_log_login` VALUES ('1c4a317117f556ce6469d7454876659f', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:03:53');
+INSERT INTO `sys_oper_log_login` VALUES ('1dc39c9ee68b9a9571a5376dc18c62ee', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:21:55');
+INSERT INTO `sys_oper_log_login` VALUES ('21822061b3973d8b8c1dc6638a6e02cd', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:19');
+INSERT INTO `sys_oper_log_login` VALUES ('2311721e33883a8dabca35bf3d18e8dd', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:07:42');
+INSERT INTO `sys_oper_log_login` VALUES ('2348676efd60839a7e46666d5abb25a0', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:03:46');
+INSERT INTO `sys_oper_log_login` VALUES ('23c173e14d4aac905042839a92c49019', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:48');
+INSERT INTO `sys_oper_log_login` VALUES ('26ba8ae013bde377a6b01ea486ecddb7', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:07:17');
+INSERT INTO `sys_oper_log_login` VALUES ('275a1f1a46254424e58d83fce25b4945', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:45:17');
+INSERT INTO `sys_oper_log_login` VALUES ('285a80be5e85eb88adb44d0a05ec095d', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:28:27');
+INSERT INTO `sys_oper_log_login` VALUES ('2920751e7128a958d13cd1643aa22599', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:46');
+INSERT INTO `sys_oper_log_login` VALUES ('29eacb9dc264036c9aaeafefe7324ebe', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:19');
+INSERT INTO `sys_oper_log_login` VALUES ('2c4f78326c0a4554c48e1b80992fdf90', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:01:37');
+INSERT INTO `sys_oper_log_login` VALUES ('2cf2e662c345ea0d7714f825f4f17341', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 16:03:38');
+INSERT INTO `sys_oper_log_login` VALUES ('2e244c17a3ce29e5402a64515b627597', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:43');
+INSERT INTO `sys_oper_log_login` VALUES ('36be4a32e5a2442d709e0aaa8720b6ff', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-11 09:48:47');
 INSERT INTO `sys_oper_log_login` VALUES ('37617f4576a00f8494d7c1c4f098fef6', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-04 23:26:08');
+INSERT INTO `sys_oper_log_login` VALUES ('3b31c8a946167c141bd8b1749ce5daa1', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:51');
+INSERT INTO `sys_oper_log_login` VALUES ('3d4d9b16d59ff767e516c1c653bc7199', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:03');
+INSERT INTO `sys_oper_log_login` VALUES ('3d54f8cb6dbff000e0af735fac4cf64a', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:45');
+INSERT INTO `sys_oper_log_login` VALUES ('3f40737ddd26ea3065d7fb0b2476831b', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:26');
+INSERT INTO `sys_oper_log_login` VALUES ('4023d18004991ac3130804ebb7d03f4d', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:45:37');
+INSERT INTO `sys_oper_log_login` VALUES ('46a71be2af95fcfbb8180074a9d4c330', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:04:30');
+INSERT INTO `sys_oper_log_login` VALUES ('4832d11173c689a12723ff589e2232ad', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:27:06');
+INSERT INTO `sys_oper_log_login` VALUES ('48d2c7d6676b21460cea68eaacd7f93b', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:45');
 INSERT INTO `sys_oper_log_login` VALUES ('49b725b9e7c35d7918f8346e5c4340a5', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-04 22:46:00');
+INSERT INTO `sys_oper_log_login` VALUES ('4af95bb4285276863e52ad6ba3a3f260', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 17:41:20');
+INSERT INTO `sys_oper_log_login` VALUES ('4cd5434731472b00542ca11514b63551', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:47');
+INSERT INTO `sys_oper_log_login` VALUES ('4f1a9d87d33db7c0b58e9445538d69b3', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:41:49');
+INSERT INTO `sys_oper_log_login` VALUES ('510c7b56d59542b6a21f87e3b0708eab', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 17:36:49');
+INSERT INTO `sys_oper_log_login` VALUES ('51f587ec6157202568c5ebebf6cd77ad', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:07:26');
+INSERT INTO `sys_oper_log_login` VALUES ('5200fc20460fe8165335f6962fa00c7f', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:06:54');
+INSERT INTO `sys_oper_log_login` VALUES ('564994802f96d35ce811ae01bda1c444', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:14');
+INSERT INTO `sys_oper_log_login` VALUES ('5743f0ede16a8712250abebd629a1a7d', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:28:25');
+INSERT INTO `sys_oper_log_login` VALUES ('5a069d14b77f80e98357991a7544e885', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:22');
+INSERT INTO `sys_oper_log_login` VALUES ('5adf64044eb7941f26b9bf509d2869d2', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:43:41');
+INSERT INTO `sys_oper_log_login` VALUES ('5b8a099ce6bce59a05fd31099739e030', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:53:21');
+INSERT INTO `sys_oper_log_login` VALUES ('5eb2d16ff6d61873f11390ec466ec9a0', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:03:08');
+INSERT INTO `sys_oper_log_login` VALUES ('62c447ba499f1dbf2471915809c37036', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:53');
+INSERT INTO `sys_oper_log_login` VALUES ('644246334f8236b25a9f54f07ad03dc2', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:22:05');
+INSERT INTO `sys_oper_log_login` VALUES ('661820b30bcff424404858ef293ddec3', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:54');
+INSERT INTO `sys_oper_log_login` VALUES ('67db49bf4e4b77bcfaa40f2db9ef6db9', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:07:14');
+INSERT INTO `sys_oper_log_login` VALUES ('69b46aa8c0b6dd66a58aea960bbeba55', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:59:30');
+INSERT INTO `sys_oper_log_login` VALUES ('69db925e86fc28f04cd0b6c5915305ff', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:57');
+INSERT INTO `sys_oper_log_login` VALUES ('7240bff4ce6b1a2dcee72b3f9d9606ae', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:46:09');
+INSERT INTO `sys_oper_log_login` VALUES ('7253157bcb9703001931917fa793b8e3', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:44');
+INSERT INTO `sys_oper_log_login` VALUES ('73465ad838126a85af3130a0324bd4fe', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:47:41');
+INSERT INTO `sys_oper_log_login` VALUES ('73b516b287a007cbe93ea6e522b43cd9', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:07:24');
+INSERT INTO `sys_oper_log_login` VALUES ('7584f1415b13f9fa90a104b0e8ca3dc6', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:41');
+INSERT INTO `sys_oper_log_login` VALUES ('75dba9eb0cb291e227d74817e7a93566', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:00');
+INSERT INTO `sys_oper_log_login` VALUES ('791ef209c2e028b20137c5f3704d4ada', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:56');
+INSERT INTO `sys_oper_log_login` VALUES ('7a3a84bd409561e66933fdcebf5fb698', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:49');
+INSERT INTO `sys_oper_log_login` VALUES ('7b3f7fb7b23bc6df27ad957b7e9a94a6', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:44:16');
+INSERT INTO `sys_oper_log_login` VALUES ('7d0d33d8294120420d7fea7b7932d549', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '退出成功', '2022-10-09 17:41:24');
+INSERT INTO `sys_oper_log_login` VALUES ('7fccf7fca8bdaa3dc85f3b04a78edf7d', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:12:49');
+INSERT INTO `sys_oper_log_login` VALUES ('816605886366d0ea763988a10fc10da5', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:20');
+INSERT INTO `sys_oper_log_login` VALUES ('85abe6c5afb4039341f78d99f0fd6921', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:07:19');
+INSERT INTO `sys_oper_log_login` VALUES ('85b2dedb86cefb423840b8496730f412', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 16:03:53');
+INSERT INTO `sys_oper_log_login` VALUES ('8770f12d732f23cddcd47f56c19d7363', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:13');
+INSERT INTO `sys_oper_log_login` VALUES ('88abfdc5aadce692fedc7dcf3af69073', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:28:26');
+INSERT INTO `sys_oper_log_login` VALUES ('8a34d1718340e792c9486aaaff35128b', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 17:41:59');
+INSERT INTO `sys_oper_log_login` VALUES ('8e8da88a4cc77e76efc344a0349cf222', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:42:32');
+INSERT INTO `sys_oper_log_login` VALUES ('8fdae325942a6b545ffd92ae1eabc2a7', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:57');
+INSERT INTO `sys_oper_log_login` VALUES ('92e01bc60f00724b232e012156e25cf2', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:03:54');
+INSERT INTO `sys_oper_log_login` VALUES ('9597ecbe6a950c65d20e9bfb2382d41c', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:43');
+INSERT INTO `sys_oper_log_login` VALUES ('97cdf4b06ec4080ba23312a15b864375', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:42');
+INSERT INTO `sys_oper_log_login` VALUES ('a27866cfe3797b7b406cae99268101db', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:53:13');
+INSERT INTO `sys_oper_log_login` VALUES ('a633b67bcadbc5c73d97f514e698abf3', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:27');
+INSERT INTO `sys_oper_log_login` VALUES ('aa54d8bfefdfbccacf364842a307994b', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:12:51');
+INSERT INTO `sys_oper_log_login` VALUES ('ad429168dcad3440e3aa0c8b8d2eee81', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:12');
+INSERT INTO `sys_oper_log_login` VALUES ('ae52dd3c35e2d8f1df90a0efd06c51d1', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:55');
+INSERT INTO `sys_oper_log_login` VALUES ('b6e0b3f0bf6e9b9b5b81f69869ebc09c', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:40:16');
+INSERT INTO `sys_oper_log_login` VALUES ('baa3d70b7351f701a25024be5bc098d5', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 17:41:40');
+INSERT INTO `sys_oper_log_login` VALUES ('bab0ea8962de87dde2b3c30ce554f888', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:43:47');
+INSERT INTO `sys_oper_log_login` VALUES ('bd13e22eed65911cafab0bb9ced89f25', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:53:14');
+INSERT INTO `sys_oper_log_login` VALUES ('bdf1c8a1c68188771f56884f2db15334', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:04:50');
+INSERT INTO `sys_oper_log_login` VALUES ('c2aa91f79a62c32d35da9a582810dee8', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:55');
+INSERT INTO `sys_oper_log_login` VALUES ('c3a8303b97969f01bb586b178ee9e635', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:44:12');
+INSERT INTO `sys_oper_log_login` VALUES ('c5b82b08627c580a6dbe5fc6e44e4a7e', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:17');
+INSERT INTO `sys_oper_log_login` VALUES ('c768abb23b1cfd51e3592e4c191ab4b8', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:17');
+INSERT INTO `sys_oper_log_login` VALUES ('ca40e86416b0fca69ec0f811be29daf8', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-12 11:14:45');
+INSERT INTO `sys_oper_log_login` VALUES ('ca8f9c40bf6073777bb8b33c5b042276', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:47');
+INSERT INTO `sys_oper_log_login` VALUES ('cbd4ef1023e09890cbb5960d585c0ef6', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:07:16');
+INSERT INTO `sys_oper_log_login` VALUES ('cc9049dee235fd4fddaeeefdb695a699', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:04');
+INSERT INTO `sys_oper_log_login` VALUES ('cd52b66badb8e66e5b0bd45a096ce644', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:18');
+INSERT INTO `sys_oper_log_login` VALUES ('d08ff238ee91e3f7dd044c531b68d043', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:47');
+INSERT INTO `sys_oper_log_login` VALUES ('d0b1f920ed98030f7ae940b9f91d74e5', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:45:08');
+INSERT INTO `sys_oper_log_login` VALUES ('d11491a41236444a23e10ad6cf571407', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:28:26');
+INSERT INTO `sys_oper_log_login` VALUES ('d4273df50ffbaa738fc563299ca66491', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:11');
+INSERT INTO `sys_oper_log_login` VALUES ('d7dc03c02aa992a636408b699fa482b2', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:22');
+INSERT INTO `sys_oper_log_login` VALUES ('d82e7267f2b792c57f2576bd6452a607', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:14:43');
+INSERT INTO `sys_oper_log_login` VALUES ('d8ad217d5202f46bdb0526cfa8c02be1', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:27');
+INSERT INTO `sys_oper_log_login` VALUES ('d9d47202a1c785c81f1271153524ecd3', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 16:02:17');
+INSERT INTO `sys_oper_log_login` VALUES ('d9da528dfdda3116254b621bb15b732e', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:02:44');
+INSERT INTO `sys_oper_log_login` VALUES ('da4029f8f80e5739d514cb3cd5af8483', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:49');
+INSERT INTO `sys_oper_log_login` VALUES ('dd8387375b74bc63832e0edf1366e7cf', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:54');
+INSERT INTO `sys_oper_log_login` VALUES ('de99433233a24c118c2fcc381bcc4da2', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:57:54');
+INSERT INTO `sys_oper_log_login` VALUES ('df5a6e93be08e55845685da2754f5cec', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:54');
+INSERT INTO `sys_oper_log_login` VALUES ('e532c658083be98b76e79689bc95c8db', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:52');
+INSERT INTO `sys_oper_log_login` VALUES ('e55b53da6e25981de0001f2d28a9aeaf', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:28:27');
+INSERT INTO `sys_oper_log_login` VALUES ('e5771ac98973f1c968dbff84822797b4', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:59');
+INSERT INTO `sys_oper_log_login` VALUES ('e5971dd1987ab30af142b603f32a7c90', '谭志伟', '127.0.0.1', '内网IP', 'Unknown', 'Unknown', 200, '登录成功', '2022-10-11 10:46:36');
+INSERT INTO `sys_oper_log_login` VALUES ('f08842459dfb7d90e81760d72061ebcc', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:18');
+INSERT INTO `sys_oper_log_login` VALUES ('f29ed291f92e85dfd6ccbb981ed96997', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:53:11');
+INSERT INTO `sys_oper_log_login` VALUES ('f3371474f49bbd605a3a8c9b9fbbe7db', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:19:18');
+INSERT INTO `sys_oper_log_login` VALUES ('f5974cc38122c673fc086ef6faf8a395', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:53:13');
+INSERT INTO `sys_oper_log_login` VALUES ('f6bf555ddae996e6ced0369a6506d690', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:15');
+INSERT INTO `sys_oper_log_login` VALUES ('f6e8ab7cf5f396b072f2acb2470b0ed2', '谭志伟', '192.168.1.203', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 13:55:53');
+INSERT INTO `sys_oper_log_login` VALUES ('fa6223e4138974eacde0e8fa0deba360', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:03:29');
+INSERT INTO `sys_oper_log_login` VALUES ('fb014aeb0e1a401c53bdd1c56e31e796', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 14:40:24');
+INSERT INTO `sys_oper_log_login` VALUES ('fee6ea74ab764ada49c528b1f1923461', '谭志伟', '127.0.0.1', '内网IP', 'Chrome', 'Windows 10 or Windows Server 2016', 200, '登录成功', '2022-10-09 15:54:41');
 
 -- ----------------------------
 -- Table structure for sys_oper_log_operation
@@ -233,14 +481,106 @@ CREATE TABLE `sys_oper_log_operation`  (
 -- ----------------------------
 -- Records of sys_oper_log_operation
 -- ----------------------------
+INSERT INTO `sys_oper_log_operation` VALUES ('061061cbe0146407179ba22dcf424ca1', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:51:10');
+INSERT INTO `sys_oper_log_operation` VALUES ('07c11e7d561aa9fc9ccae469982622ab', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:55:22');
+INSERT INTO `sys_oper_log_operation` VALUES ('0b51753580d6a200f45053e05afb29e4', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 10:46:39');
+INSERT INTO `sys_oper_log_operation` VALUES ('0c2dd132f728c90ff139ce5b3de4ea77', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:38:57');
 INSERT INTO `sys_oper_log_operation` VALUES ('14dce0411b67dd04249862992a430411', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-08 16:46:53');
+INSERT INTO `sys_oper_log_operation` VALUES ('19a7a252d873d6e65f21c165aadea81c', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 10:07:33');
 INSERT INTO `sys_oper_log_operation` VALUES ('1a8f4544a780ac168c891080113ca9d4', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-03 22:46:04');
+INSERT INTO `sys_oper_log_operation` VALUES ('1bfbe44d98ea482ded6a7c4786da0836', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-12 11:15:33');
+INSERT INTO `sys_oper_log_operation` VALUES ('2c2e52579537036df2e4a79f65a6f46a', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 10:52:22');
+INSERT INTO `sys_oper_log_operation` VALUES ('315d771c91b325ca155aed7bd20054a1', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 09:57:41');
+INSERT INTO `sys_oper_log_operation` VALUES ('35839db225d671481da32481290ae732', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:54:47');
+INSERT INTO `sys_oper_log_operation` VALUES ('39761ee32b9d65c3820398b356400941', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:41:09');
+INSERT INTO `sys_oper_log_operation` VALUES ('3caed7c740e8b5b8e7709d5ca2b42474', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-12 11:17:58');
+INSERT INTO `sys_oper_log_operation` VALUES ('442802e77219d7697adefdb89ec2277d', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '127.0.0.1', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:39:40');
+INSERT INTO `sys_oper_log_operation` VALUES ('4822ec3329ef81757ab2be2694bf507e', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 09:49:01');
+INSERT INTO `sys_oper_log_operation` VALUES ('4909bfa626fda4d4ae3a2f8bc8cf58c8', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:10:53');
+INSERT INTO `sys_oper_log_operation` VALUES ('4ae0b5b1d1fe78243ef2670d3ed91964', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:52:38');
+INSERT INTO `sys_oper_log_operation` VALUES ('4b96bf0fe6ff9a9519bdabd219e07075', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 18:01:14');
+INSERT INTO `sys_oper_log_operation` VALUES ('5c79f1c57aa05c81dc67a1832379725f', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:52:56');
 INSERT INTO `sys_oper_log_operation` VALUES ('64667cbc129eb8d360ed831d95b1ce0b', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{\"pageSize\":10,\"pageNum\":1}]', 0, '', '2022-10-04 23:26:53');
+INSERT INTO `sys_oper_log_operation` VALUES ('673cba23c1fa34f673d184d7513977c6', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '127.0.0.1', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:39:21');
 INSERT INTO `sys_oper_log_operation` VALUES ('67ec3f3f7c3e16e6084b730b07721851', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{\"pageSize\":10,\"pageNum\":1}]', 0, '', '2022-10-04 22:49:26');
+INSERT INTO `sys_oper_log_operation` VALUES ('6dfb04d1e7250d45700ca9779b6c2258', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 09:59:48');
 INSERT INTO `sys_oper_log_operation` VALUES ('7679397d8b48fb9f4ef4f893c68bfb5f', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-03 22:54:26');
+INSERT INTO `sys_oper_log_operation` VALUES ('8091925cfaa4ee670d3c570f533862dd', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '127.0.0.1', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:41:05');
+INSERT INTO `sys_oper_log_operation` VALUES ('80d243ed488b88b308be431ca300af84', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:24:44');
+INSERT INTO `sys_oper_log_operation` VALUES ('81b5503f3c8ca8487ee021780b80ac91', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:36:59');
+INSERT INTO `sys_oper_log_operation` VALUES ('8eaed54e64e40c96c894cb2a2ef6531f', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:24:38');
+INSERT INTO `sys_oper_log_operation` VALUES ('93eef9f068fb08229c03dda45851c9f3', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '127.0.0.1', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:40:08');
+INSERT INTO `sys_oper_log_operation` VALUES ('9d6ca9def423e3b999cc8b917f1fb302', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '127.0.0.1', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:39:00');
+INSERT INTO `sys_oper_log_operation` VALUES ('a54aae06b7ea3543e479c304ee2f7e44', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:54:14');
+INSERT INTO `sys_oper_log_operation` VALUES ('a8b96b3b4008241b2781f010ba66cbd0', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:41:59');
+INSERT INTO `sys_oper_log_operation` VALUES ('a9c42fe3f8404b5b799f2b303d32738e', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:38:19');
+INSERT INTO `sys_oper_log_operation` VALUES ('aa436f400efb355f53c43fd83d3589ff', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:55:33');
 INSERT INTO `sys_oper_log_operation` VALUES ('b51ed38d955ebb9e0476138b2d2c4eee', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-03 22:44:45');
+INSERT INTO `sys_oper_log_operation` VALUES ('c9d14587f1ca3e0b254f357c24552aa6', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:51:28');
+INSERT INTO `sys_oper_log_operation` VALUES ('cd1d9819aaadd9c128c11dda03ba7a02', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:39:04');
+INSERT INTO `sys_oper_log_operation` VALUES ('d4f2da0ab2be2f43ea4d126a80a3ccf9', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:38:10');
+INSERT INTO `sys_oper_log_operation` VALUES ('d5c37217466508e3366c513835cf0f84', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:55:08');
+INSERT INTO `sys_oper_log_operation` VALUES ('d8c7de14cf62c884f4ffa79459025d4f', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-10 17:50:55');
+INSERT INTO `sys_oper_log_operation` VALUES ('da08192833bfa0af4c30ae4e710b624c', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:24:58');
+INSERT INTO `sys_oper_log_operation` VALUES ('e1be31ce5d45a957ff2cf7c16a27c3de', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:41:20');
 INSERT INTO `sys_oper_log_operation` VALUES ('e60eb8db289feaea3682ed04580c3fe0', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{\"pageSize\":10,\"pageNum\":1}]', 0, '', '2022-10-04 22:47:30');
+INSERT INTO `sys_oper_log_operation` VALUES ('ea063e637f29abf6b8c4276503a7a9ca', '根据用户编号获取用户详情', 1, 'com.springcloud.study.system.controller.SysUserController.selectVoById()', 'GET', 1, '谭志伟', '', '/sys/user/getInfo', '192.168.1.203', '内网IP', '[\"getInfo\"]', 0, '', '2022-10-09 17:41:40');
 INSERT INTO `sys_oper_log_operation` VALUES ('ef8dc4b87da25f96c4d12b820275df0f', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-03 22:45:23');
+INSERT INTO `sys_oper_log_operation` VALUES ('ff11256b7afa3204727077375780e6bc', '获取用户列表数据', 1, 'com.springcloud.study.system.controller.SysUserController.queryPageUserList()', 'GET', 1, '谭志伟', '', '/sys/user/queryPageUserList', '127.0.0.1', '内网IP', '[{},{}]', 0, '', '2022-10-11 11:11:16');
+
+-- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role`  (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色ID',
+  `role_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色名称',
+  `role_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色权限字符串',
+  `role_sort` int(4) NOT NULL COMMENT '显示顺序',
+  `data_scope` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
+  `menu_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '菜单树选择项是否关联显示',
+  `dept_check_strictly` tinyint(1) NULL DEFAULT 1 COMMENT '部门树选择项是否关联显示',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色状态（0正常 1停用）',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '删除标志（0代表存在 2代表删除）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_role_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_dept`;
+CREATE TABLE `sys_role_dept`  (
+  `role_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色ID',
+  `dept_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`role_id`, `dept_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和部门关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_dept
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for sys_role_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu`  (
+  `role_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色ID',
+  `menu_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '菜单ID',
+  PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色和菜单关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_role_menu
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -271,5 +611,19 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('4f2d09177f57b064ddf280a9c79f8d92', '谭志伟', 'tanzhiwei0526@163.com', '15951082176', '0', '', '$2a$10$MhMWHbXPuDG0AzAUhIkDZOfVV4MYlqr50l7kFYO3FsXq.rPIGI1Pm', '0', 'sys_user', '0', '', NULL, NULL, '2022-09-28 16:54:59', NULL, '2022-09-28 16:54:59', NULL);
+
+-- ----------------------------
+-- Table structure for sys_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role`  (
+  `user_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户ID',
+  `role_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色ID',
+  PRIMARY KEY (`user_id`, `role_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户和角色关联表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_user_role
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
