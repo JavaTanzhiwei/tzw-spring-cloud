@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 类 描 述: 用户访问日志控制层
+ * 类 描 述: 用户访问日志 控制层
  * 作   者: 谭志伟
  * 时   间: 2022/9/28  15:19
  */

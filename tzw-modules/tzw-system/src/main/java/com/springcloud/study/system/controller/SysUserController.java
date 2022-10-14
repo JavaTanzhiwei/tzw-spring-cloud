@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 
 /**
- * 类 描 述: 用户管理控制层
+ * 类 描 述: 用户管理 控制层
  * 作   者: 谭志伟
  * 时   间: 2022/9/21  13:34
  */
