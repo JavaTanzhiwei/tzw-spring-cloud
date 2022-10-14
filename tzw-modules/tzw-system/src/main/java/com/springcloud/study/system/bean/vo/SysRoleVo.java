@@ -1,22 +1,17 @@
-package com.springcloud.study.api.system.bean.po;
+package com.springcloud.study.system.bean.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.springcloud.study.core.base.BasePo;
+import com.springcloud.study.core.base.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Set;
-
 /**
- * 类 描 述: 角色表 sys_role
+ * 类 描 述: 角色管理 Vo
  * 作   者: 谭志伟
- * 时   间: 2022/10/13  17:22
+ * 时   间: 2022/10/14  10:24
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_role")
-public class SysRole extends BasePo {
+public class SysRoleVo extends BaseVo {
     /**
      * 属性描述: 角色名称
      * 作   者: 谭志伟
@@ -71,32 +66,4 @@ public class SysRole extends BasePo {
      * 时   间: 2022/10/14 10:05
      */
     private String remark;
-    /**
-     * 属性描述: 用户是否存在此角色标识 默认不存在
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:05
-     */
-    @TableField(exist = false)
-    private boolean flag = false;
-    /**
-     * 属性描述: 菜单组
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:05
-     */
-    @TableField(exist = false)
-    private String[] menuIds;
-    /**
-     * 属性描述: 部门组（数据权限）
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:05
-     */
-    @TableField(exist = false)
-    private String[] deptIds;
-    /**
-     * 属性描述: 角色菜单权限
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:05
-     */
-    @TableField(exist = false)
-    private Set<String> permissions;
 }

@@ -1,23 +1,17 @@
-package com.springcloud.study.api.system.bean.po;
+package com.springcloud.study.system.bean.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.springcloud.study.core.base.BasePo;
+import com.springcloud.study.core.base.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * 类 描 述: 部门表 sys_dept
+ * 类 描 述: 部门管理 Vo
  * 作   者: 谭志伟
- * 时   间: 2022/10/13  17:21
+ * 时   间: 2022/10/14  10:24
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("sys_dept")
-public class SysDept extends BasePo {
+public class SysDeptVo extends BaseVo {
     /**
      * 属性描述: 父部门ID
      * 作   者: 谭志伟
@@ -72,18 +66,4 @@ public class SysDept extends BasePo {
      * 时   间: 2022/10/14 10:16
      */
     private String delFlag;
-    /**
-     * 属性描述: 父部门名称
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:16
-     */
-    @TableField(exist = false)
-    private String parentName;
-    /**
-     * 属性描述: 子部门
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/14 10:16
-     */
-    @TableField(exist = false)
-    private List<SysDept> children = new ArrayList<SysDept>();
 }

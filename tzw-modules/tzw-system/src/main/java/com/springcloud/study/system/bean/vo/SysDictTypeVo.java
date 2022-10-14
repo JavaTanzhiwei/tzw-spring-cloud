@@ -1,15 +1,17 @@
-package com.springcloud.study.api.system.bean.po;
+package com.springcloud.study.system.bean.vo;
 
-import com.springcloud.study.core.base.BasePo;
+import com.springcloud.study.core.base.BaseVo;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * 类 描 述: 字典数据表 sys_dict_data
+ * 类 描 述: 字典类型 Vo
  * 作   者: 谭志伟
- * 时   间: 2022/10/13  17:20
+ * 时   间: 2022/10/14  10:24
  */
 @Data
-public class SysDictType extends BasePo {
+@EqualsAndHashCode(callSuper = true)
+public class SysDictTypeVo extends BaseVo {
     /**
      * 属性描述: 字典名称
      * 作   者: 谭志伟
