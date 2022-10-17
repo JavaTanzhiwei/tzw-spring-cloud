@@ -48,7 +48,7 @@ public class SysUserController {
      * 作   者: 谭志伟
      * 时   间: 2022/9/22 15:45
      */
-    @OperLog(title = "根据用户编号获取用户详情", businessType = BusinessType.SELECT)
+    //@OperLog(title = "根据用户编号获取用户详情", businessType = BusinessType.SELECT)
     @GetMapping(value = {"/", "/{userId}"})
     public AjaxResult selectVoById(@PathVariable(value = "userId", required = true) String userId) {
         return AjaxResult.success(userService.selectVoById(userId));
