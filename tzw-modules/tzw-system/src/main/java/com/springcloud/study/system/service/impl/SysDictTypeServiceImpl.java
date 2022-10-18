@@ -5,13 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springcloud.study.api.system.bean.po.SysDictData;
 import com.springcloud.study.api.system.bean.po.SysDictType;
 import com.springcloud.study.mybatis.core.page.PageQuery;
+import com.springcloud.study.system.bean.req.SysDictTypeReq;
 import com.springcloud.study.system.bean.vo.SysDictTypeVo;
 import com.springcloud.study.system.mapper.SysDictTypeMapper;
 import com.springcloud.study.system.service.SysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      * 时   间: 2022/10/18 13:55
      */
     @Override
-    public IPage<SysDictTypeVo> queryPageDictTypeList(SysDictType dictTypeReq, PageQuery pageQuery) {
+    public IPage<SysDictTypeVo> queryPageDictTypeList(SysDictTypeReq dictTypeReq, PageQuery pageQuery) {
         return null;
     }
 
@@ -39,7 +38,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      * 时   间: 2022/10/18 13:55
      */
     @Override
-    public List<SysDictType> selectDictTypeList(SysDictType dictTypeReq) {
+    public List<SysDictType> selectDictTypeList(SysDictTypeReq dictTypeReq) {
         return null;
     }
 
