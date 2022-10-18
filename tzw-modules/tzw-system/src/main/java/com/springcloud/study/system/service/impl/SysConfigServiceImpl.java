@@ -24,7 +24,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 类 描 述: 参数配置 服务层
+ * 类 描 述: 参数配置 服务层实现
  * 作   者: 谭志伟
  * 时   间: 2022/10/14  16:35
  */

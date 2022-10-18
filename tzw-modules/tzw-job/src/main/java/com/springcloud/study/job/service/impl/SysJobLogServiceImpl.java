@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * 类 描 述: 定时任务调度日志信息 服务层
+ * 类 描 述: 定时任务调度日志信息 服务层实现
  * 作   者: 谭志伟
  * 时   间: 2022/10/08  11:19
  */

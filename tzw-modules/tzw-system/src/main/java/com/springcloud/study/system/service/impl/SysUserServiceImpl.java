@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.Serializable;
 
 /**
- * 类 描 述: 用户管理 服务层
+ * 类 描 述: 用户管理 服务层实现
  * 作   者: 谭志伟
  * 时   间: 2022/9/21  13:37
  */

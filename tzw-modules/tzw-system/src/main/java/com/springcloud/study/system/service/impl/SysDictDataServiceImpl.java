@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
- * 类 描 述: 字典数据 服务层
+ * 类 描 述: 字典数据 服务层实现
  * 作   者: 谭志伟
  * 时   间: 2022/10/14  13:40
  */

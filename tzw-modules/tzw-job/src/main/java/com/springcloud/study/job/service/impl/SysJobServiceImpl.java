@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * 类 描 述: 定时任务调度信息 服务层
+ * 类 描 述: 定时任务调度信息 服务层实现
  * 作   者: 谭志伟
  * 时   间: 2022/10/08  11:19
  */
