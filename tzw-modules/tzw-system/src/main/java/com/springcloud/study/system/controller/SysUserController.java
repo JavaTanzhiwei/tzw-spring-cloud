@@ -11,6 +11,7 @@ import com.springcloud.study.log.annotation.OperLog;
 import com.springcloud.study.log.enums.BusinessType;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.api.system.bean.po.SysUser;
+import com.springcloud.study.system.bean.req.SysUserReq;
 import com.springcloud.study.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class SysUserController {
      */
     @OperLog(title = "获取用户列表数据", businessType = BusinessType.SELECT)
     @GetMapping("/queryPageUserList")
-    public AjaxResult queryPageUserList(SysUser userReq, PageQuery pageQuery) {
+    public AjaxResult queryPageUserList(SysUserReq userReq, PageQuery pageQuery) {
         KafkaUtils.sendKafkaServiceMsg("001", kafkaConfig.KAFKA_TZW_TYPE_SYSTEM, "kafka消息队列消费----" + DateUtil.now(), ServiceNameConstants.SYSTEM_SERVICE);
         return AjaxResult.success(userService.queryPageUserList(userReq, pageQuery));
     }

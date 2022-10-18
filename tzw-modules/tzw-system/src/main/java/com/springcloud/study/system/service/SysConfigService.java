@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.system.bean.po.SysConfig;
+import com.springcloud.study.system.bean.req.SysConfigReq;
 import com.springcloud.study.system.bean.vo.SysConfigVo;
 
 /**
@@ -17,7 +18,7 @@ public interface SysConfigService extends IService<SysConfig> {
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:58
      */
-    IPage<SysConfigVo> queryPageConfigList(SysConfig configReq, PageQuery pageQuery);
+    IPage<SysConfigVo> queryPageConfigList(SysConfigReq configReq, PageQuery pageQuery);
 
     /**
      * 方法描述: 新增参数配置
