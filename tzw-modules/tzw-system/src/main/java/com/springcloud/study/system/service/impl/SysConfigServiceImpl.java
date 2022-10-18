@@ -12,7 +12,6 @@ import com.springcloud.study.core.utils.StringUtils;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.redis.utils.RedisUtils;
 import com.springcloud.study.system.bean.po.SysConfig;
-import com.springcloud.study.system.bean.req.SysConfigReq;
 import com.springcloud.study.system.bean.vo.SysConfigVo;
 import com.springcloud.study.system.mapper.SysConfigMapper;
 import com.springcloud.study.system.service.SysConfigService;
@@ -37,7 +36,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * 时   间: 2022/10/17 14:59
      */
     @Override
-    public IPage<SysConfigVo> queryPageConfigList(SysConfigReq configReq, PageQuery pageQuery) {
+    public IPage<SysConfigVo> queryPageConfigList(SysConfig configReq, PageQuery pageQuery) {
         LambdaQueryWrapper<SysConfig> queryWrapper = new LambdaQueryWrapper<>();
         return baseMapper.selectVoPage(pageQuery.build(), queryWrapper);
     }

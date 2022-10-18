@@ -9,7 +9,6 @@ import com.springcloud.study.core.enums.UserStatus;
 import com.springcloud.study.core.exception.user.UserException;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.api.system.bean.po.SysUser;
-import com.springcloud.study.system.bean.req.SysUserReq;
 import com.springcloud.study.system.bean.vo.SysUserVo;
 import com.springcloud.study.system.mapper.SysUserMapper;
 import com.springcloud.study.system.service.SysUserService;
@@ -32,7 +31,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 时   间: 2022/9/21 13:56
      */
     @Override
-    public IPage<SysUserVo> queryPageUserList(SysUserReq userReq, PageQuery pageQuery) {
+    public IPage<SysUserVo> queryPageUserList(SysUser userReq, PageQuery pageQuery) {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StrUtil.isNotBlank(userReq.getUserName()), SysUser::getUserName, userReq.getUserName());
         return baseMapper.selectVoPage(pageQuery.build(), queryWrapper);

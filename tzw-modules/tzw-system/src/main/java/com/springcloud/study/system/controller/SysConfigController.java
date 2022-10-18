@@ -8,7 +8,6 @@ import com.springcloud.study.log.enums.BusinessType;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.security.utils.LoginHelper;
 import com.springcloud.study.system.bean.po.SysConfig;
-import com.springcloud.study.system.bean.req.SysConfigReq;
 import com.springcloud.study.system.service.SysConfigService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +31,7 @@ public class SysConfigController extends BaseController {
      */
     @OperLog(title = "获取参数配置列表", businessType = BusinessType.SELECT)
     @GetMapping("/queryPageConfigList")
-    public AjaxResult queryPageConfigList(SysConfigReq configReq, PageQuery pageQuery) {
+    public AjaxResult queryPageConfigList(SysConfig configReq, PageQuery pageQuery) {
         return success(configService.queryPageConfigList(configReq, pageQuery));
     }
 
