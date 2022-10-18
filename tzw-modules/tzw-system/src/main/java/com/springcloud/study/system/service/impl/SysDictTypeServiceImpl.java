@@ -1,18 +1,31 @@
 package com.springcloud.study.system.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springcloud.study.api.system.bean.po.SysDictData;
 import com.springcloud.study.api.system.bean.po.SysDictType;
+import com.springcloud.study.core.constant.UserConstants;
+import com.springcloud.study.core.exception.ServiceException;
 import com.springcloud.study.mybatis.core.page.PageQuery;
+import com.springcloud.study.security.utils.DictUtils;
 import com.springcloud.study.system.bean.req.SysDictTypeReq;
 import com.springcloud.study.system.bean.vo.SysDictTypeVo;
+import com.springcloud.study.system.mapper.SysDictDataMapper;
 import com.springcloud.study.system.mapper.SysDictTypeMapper;
 import com.springcloud.study.system.service.SysDictTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 类 描 述: 字典类型 服务层实现
@@ -22,6 +35,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDictType> implements SysDictTypeService {
+    private final SysDictDataMapper dictDataMapper;
+
+    /**
+     * 方法描述: 项目启动时，初始化字典到缓存
+     * 作   者: 谭志伟
+     * 时   间: 2022/10/18 14:39
+     */
+    @PostConstruct
+    public void init() {
+        loadingDictCache();
+    }
+
     /**
      * 方法描述: 分页查询
      * 作   者: 谭志伟
@@ -29,7 +54,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public IPage<SysDictTypeVo> queryPageDictTypeList(SysDictTypeReq dictTypeReq, PageQuery pageQuery) {
-        return null;
+        LambdaQueryWrapper<SysDictType> queryWrapper = new LambdaQueryWrapper<>();
+        return baseMapper.selectVoPage(pageQuery.build(), queryWrapper);
     }
 
     /**
@@ -39,7 +65,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public List<SysDictType> selectDictTypeList(SysDictTypeReq dictTypeReq) {
-        return null;
+        LambdaQueryWrapper<SysDictType> queryWrapper = new LambdaQueryWrapper<>();
+        return baseMapper.selectList(queryWrapper);
     }
 
     /**
@@ -49,7 +76,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public List<SysDictType> selectDictTypeAll() {
-        return null;
+        return baseMapper.selectList();
     }
 
     /**
@@ -59,6 +86,15 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
+        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
+        if (CollectionUtil.isNotEmpty(dictDatas)) {
+            return dictDatas;
+        }
+        dictDatas = dictDataMapper.selectList(new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getDictType, dictType));
+        if (CollectionUtil.isNotEmpty(dictDatas)) {
+            DictUtils.setDictCache(dictType, dictDatas);
+            return dictDatas;
+        }
         return null;
     }
 
@@ -69,7 +105,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public void deleteDictTypeByIds(String[] dictIds) {
-
+        Arrays.stream(dictIds).forEach(item -> {
+            SysDictType dictType = baseMapper.selectById(item);
+            if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0) {
+                throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
+            }
+            baseMapper.deleteById(item);
+            DictUtils.removeDictCache(dictType.getDictType());
+        });
     }
 
     /**
@@ -79,7 +122,12 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public void loadingDictCache() {
-
+        Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectList(
+                new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getStatus, "0"))
+                .stream().collect(Collectors.groupingBy(SysDictData::getDictType));
+        for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet()) {
+            DictUtils.setDictCache(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(SysDictData::getDictSort)).collect(Collectors.toList()));
+        }
     }
 
     /**
@@ -89,7 +137,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public void clearDictCache() {
-
+        DictUtils.clearDictCache();
     }
 
     /**
@@ -99,7 +147,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public void resetDictCache() {
-
+        clearDictCache();
+        loadingDictCache();
     }
 
     /**
@@ -109,7 +158,11 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public int insertDictType(SysDictType dictType) {
-        return 0;
+        int row = baseMapper.insert(dictType);
+        if (row > 0) {
+            DictUtils.setDictCache(dictType.getDictType(), null);
+        }
+        return row;
     }
 
     /**
@@ -119,7 +172,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public int updateDictType(SysDictType dictType) {
-        return 0;
+        SysDictType oldDict = baseMapper.selectById(dictType.getId());
+        dictDataMapper.updateDictDataType(oldDict.getDictType(), dictType.getDictType());
+        int row = baseMapper.updateById(dictType);
+        if (row > 0) {
+            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
+            DictUtils.setDictCache(dictType.getDictType(), dictDatas);
+        }
+        return row;
     }
 
     /**
@@ -129,6 +189,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public String checkDictTypeUnique(SysDictType dictType) {
-        return null;
+        String dictId = dictType.getId();
+        // 校验是否唯一Key
+        LambdaQueryWrapper<SysDictType> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(StrUtil.isNotBlank(dictType.getDictType()), SysDictType::getDictType, dictType.getDictType());
+        SysDictType sysDictType = baseMapper.selectOne(wrapper);
+        if (ObjectUtil.isNotNull(sysDictType) && dictType.getId() != dictId) {
+            return UserConstants.NOT_UNIQUE;
+        }
+        return UserConstants.UNIQUE;
     }
 }
