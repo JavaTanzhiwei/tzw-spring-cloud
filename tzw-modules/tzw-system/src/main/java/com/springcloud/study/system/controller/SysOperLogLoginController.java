@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/sys/log/login")
+@RequestMapping("/log/login")
 public class SysOperLogLoginController extends BaseController {
     private final SysOperLogLoginService operLogLoginService;
 

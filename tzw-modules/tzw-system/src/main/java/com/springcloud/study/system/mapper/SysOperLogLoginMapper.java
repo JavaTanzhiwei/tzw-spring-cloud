@@ -16,6 +16,6 @@ public interface SysOperLogLoginMapper extends BaseMapperPlus<SysOperLogLoginMap
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 15:45
      */
-    @Update("truncate table sys_logininfor")
+    @Update("truncate table sys_oper_log_login")
     int cleanLogininfor();
 }

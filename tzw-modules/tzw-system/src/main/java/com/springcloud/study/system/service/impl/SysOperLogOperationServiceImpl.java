@@ -30,4 +30,14 @@ public class SysOperLogOperationServiceImpl extends ServiceImpl<SysOperLogOperat
         LambdaQueryWrapper<SysOperLogOperation> wrapper = new LambdaQueryWrapper();
         return baseMapper.selectVoPage(pageQuery.build(), wrapper);
     }
+
+    /**
+     * 方法描述: 清空操作日志
+     * 作   者: 谭志伟
+     * 时   间: 2022/10/18 15:56
+     */
+    @Override
+    public void cleanOperLog() {
+        baseMapper.cleanOperLog();
+    }
 }

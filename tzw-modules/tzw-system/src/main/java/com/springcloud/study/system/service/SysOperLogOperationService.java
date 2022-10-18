@@ -19,4 +19,11 @@ public interface SysOperLogOperationService extends IService<SysOperLogOperation
      * 时   间: 2022/10/17 14:58
      */
     IPage<SysOperLogOperationVo> queryPageOperationLogList(SysOperLogOperationReq operationReq, PageQuery pageQuery);
+
+    /**
+     * 方法描述: 清空操作日志
+     * 作   者: 谭志伟
+     * 时   间: 2022/10/18 15:55
+     */
+    void cleanOperLog();
 }
