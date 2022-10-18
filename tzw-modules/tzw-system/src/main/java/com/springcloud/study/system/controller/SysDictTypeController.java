@@ -34,7 +34,7 @@ public class SysDictTypeController extends BaseController {
      * 时   间: 2022/10/18 14:43
      */
     @OperLog(title = "获取字典类型列表", businessType = BusinessType.SELECT)
-    @GetMapping("/queryPageConfigList")
+    @GetMapping("/queryPageDictTypeList")
     public AjaxResult queryPageDictTypeList(SysDictTypeReq dictTypeReq, PageQuery pageQuery) {
         return success(dictTypeService.queryPageDictTypeList(dictTypeReq, pageQuery));
     }
