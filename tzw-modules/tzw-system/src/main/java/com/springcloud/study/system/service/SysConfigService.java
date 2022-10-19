@@ -25,14 +25,14 @@ public interface SysConfigService extends IService<SysConfig> {
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:50
      */
-    int insertConfig(SysConfig config);
+    String insertConfig(SysConfig config);
 
     /**
      * 方法描述: 修改参数配置
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:50
      */
-    int updateConfig(SysConfig config);
+    String updateConfig(SysConfig config);
 
     /**
      * 方法描述: 批量删除参数信息

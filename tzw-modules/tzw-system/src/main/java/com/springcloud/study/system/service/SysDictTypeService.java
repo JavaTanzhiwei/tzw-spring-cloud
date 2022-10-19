@@ -77,14 +77,14 @@ public interface SysDictTypeService extends IService<SysDictType> {
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 13:52
      */
-    int insertDictType(SysDictType dictType);
+    List<SysDictData> insertDictType(SysDictType dictType);
 
     /**
      * 方法描述: 修改保存字典类型信息
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 13:53
      */
-    int updateDictType(SysDictType dictType);
+    List<SysDictData> updateDictType(SysDictType dictType);
 
     /**
      * 方法描述: 校验字典类型称是否唯一

@@ -1,13 +1,12 @@
 package com.springcloud.study.core.utils;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -54,5 +53,38 @@ public class StreamUtils {
             return StrUtil.EMPTY;
         }
         return collection.stream().map(function).filter(Objects::nonNull).collect(Collectors.joining(delimiter));
+    }
+
+    /**
+     * 将collection按照规则(比如有相同的班级id)分类成map<br>
+     * <B>{@code Collection<E> -------> Map<K,List<E>> } </B>
+     *
+     * @param collection 需要分类的集合
+     * @param key        分类的规则
+     * @param <E>        collection中的泛型
+     * @param <K>        map中的key类型
+     * @return 分类后的map
+     */
+    public static <E, K> Map<K, List<E>> groupByKey(Collection<E> collection, Function<E, K> key) {
+        if (CollUtil.isEmpty(collection)) {
+            return MapUtil.newHashMap();
+        }
+        return collection
+                .stream()
+                .collect(Collectors.groupingBy(key, LinkedHashMap::new, Collectors.toList()));
+    }
+
+    /**
+     * 将collection排序
+     *
+     * @param collection 需要转化的集合
+     * @param comparing  排序方法
+     * @return 排序后的list
+     */
+    public static <E> List<E> sorted(Collection<E> collection, Comparator<E> comparing) {
+        if (CollUtil.isEmpty(collection)) {
+            return CollUtil.newArrayList();
+        }
+        return collection.stream().sorted(comparing).collect(Collectors.toList());
     }
 }

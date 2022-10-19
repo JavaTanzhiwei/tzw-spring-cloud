@@ -59,11 +59,7 @@ public class SysDictDataController extends BaseController {
      */
     @GetMapping(value = "/type/{dictType}")
     public AjaxResult dictType(@PathVariable String dictType) {
-        List<SysDictData> data = dictTypeService.selectDictDataByType(dictType);
-        if (CollectionUtil.isEmpty(data)) {
-            data = new ArrayList<SysDictData>();
-        }
-        return success(data);
+        return success(dictTypeService.selectDictDataByType(dictType));
     }
 
     /**
@@ -74,7 +70,7 @@ public class SysDictDataController extends BaseController {
     @OperLog(title = "新增字典数据", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysDictData dict) {
-        return toAjax(dictDataService.insertDictData(dict));
+        return success(dictDataService.insertDictData(dict));
     }
 
     /**
@@ -86,7 +82,7 @@ public class SysDictDataController extends BaseController {
     @PutMapping
     public AjaxResult edit(@Validated @RequestBody SysDictData dict) {
         dict.setUpdateBy(LoginHelper.getUsername());
-        return toAjax(dictDataService.updateDictData(dict));
+        return success(dictDataService.updateDictData(dict));
     }
 
     /**

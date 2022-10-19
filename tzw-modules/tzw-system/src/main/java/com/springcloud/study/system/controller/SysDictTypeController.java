@@ -61,7 +61,7 @@ public class SysDictTypeController extends BaseController {
         if (UserConstants.NOT_UNIQUE.equals(dictTypeService.checkDictTypeUnique(dict))) {
             return AjaxResult.error("新增字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
-        return toAjax(dictTypeService.insertDictType(dict));
+        return success(dictTypeService.insertDictType(dict));
     }
 
     /**
@@ -76,7 +76,7 @@ public class SysDictTypeController extends BaseController {
             return AjaxResult.error("修改字典'" + dict.getDictName() + "'失败，字典类型已存在");
         }
         dict.setUpdateBy(LoginHelper.getUsername());
-        return toAjax(dictTypeService.updateDictType(dict));
+        return success(dictTypeService.updateDictType(dict));
     }
 
     /**

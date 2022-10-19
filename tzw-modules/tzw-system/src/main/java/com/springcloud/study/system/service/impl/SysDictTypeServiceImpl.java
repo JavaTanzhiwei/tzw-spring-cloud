@@ -1,5 +1,6 @@
 package com.springcloud.study.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -8,8 +9,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springcloud.study.api.system.bean.po.SysDictData;
 import com.springcloud.study.api.system.bean.po.SysDictType;
+import com.springcloud.study.core.constant.CacheConstants;
 import com.springcloud.study.core.constant.UserConstants;
 import com.springcloud.study.core.exception.ServiceException;
+import com.springcloud.study.core.utils.StreamUtils;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.security.utils.DictUtils;
 import com.springcloud.study.system.bean.req.SysDictTypeReq;
@@ -18,7 +21,10 @@ import com.springcloud.study.system.mapper.SysDictDataMapper;
 import com.springcloud.study.system.mapper.SysDictTypeMapper;
 import com.springcloud.study.system.service.SysDictTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.*;
@@ -81,18 +87,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 13:55
      */
+    @Cacheable(cacheNames = CacheConstants.SYS_DICT, key = "#dictType")
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
-        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (CollectionUtil.isNotEmpty(dictDatas)) {
-            return dictDatas;
-        }
-        dictDatas = dictDataMapper.selectList(new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getDictType, dictType));
-        if (CollectionUtil.isNotEmpty(dictDatas)) {
-            DictUtils.setDictCache(dictType, dictDatas);
-            return dictDatas;
-        }
-        return null;
+        return dictDataMapper.selectDictDataByType(dictType);
     }
 
     /**
@@ -107,9 +105,9 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
             if (dictDataMapper.countDictDataByType(dictType.getDictType()) > 0) {
                 throw new ServiceException(String.format("%1$s已分配,不能删除", dictType.getDictName()));
             }
-            baseMapper.deleteById(item);
             DictUtils.removeDictCache(dictType.getDictType());
         });
+        baseMapper.deleteBatchIds(Arrays.asList(dictIds));
     }
 
     /**
@@ -119,12 +117,13 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public void loadingDictCache() {
-        Map<String, List<SysDictData>> dictDataMap = dictDataMapper.selectList(
-                new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getStatus, "0"))
-                .stream().collect(Collectors.groupingBy(SysDictData::getDictType));
-        for (Map.Entry<String, List<SysDictData>> entry : dictDataMap.entrySet()) {
-            DictUtils.setDictCache(entry.getKey(), entry.getValue().stream().sorted(Comparator.comparing(SysDictData::getDictSort)).collect(Collectors.toList()));
-        }
+        List<SysDictData> dictDataList = dictDataMapper.selectList(
+                new LambdaQueryWrapper<SysDictData>().eq(SysDictData::getStatus, UserConstants.DICT_NORMAL));
+        Map<String, List<SysDictData>> dictDataMap = StreamUtils.groupByKey(dictDataList, SysDictData::getDictType);
+        dictDataMap.forEach((k, v) -> {
+            List<SysDictData> dictList = StreamUtils.sorted(v, Comparator.comparing(SysDictData::getDictSort));
+            DictUtils.setDictCache(k, dictList);
+        });
     }
 
     /**
@@ -153,13 +152,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 13:55
      */
+    @CachePut(cacheNames = CacheConstants.SYS_DICT, key = "#dict.dictType")
     @Override
-    public int insertDictType(SysDictType dictType) {
-        int row = baseMapper.insert(dictType);
+    public List<SysDictData> insertDictType(SysDictType dict) {
+        int row = baseMapper.insert(dict);
         if (row > 0) {
-            DictUtils.setDictCache(dictType.getDictType(), new ArrayList<>());
+            return new ArrayList<>();
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -167,16 +167,18 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 13:55
      */
+    @CachePut(cacheNames = CacheConstants.SYS_DICT, key = "#dict.dictType")
     @Override
-    public int updateDictType(SysDictType dictType) {
-        SysDictType oldDict = baseMapper.selectById(dictType.getId());
-        dictDataMapper.updateDictDataType(oldDict.getDictType(), dictType.getDictType());
-        int row = baseMapper.updateById(dictType);
+    @Transactional(rollbackFor = Exception.class)
+    public List<SysDictData> updateDictType(SysDictType dict) {
+        SysDictType oldDict = baseMapper.selectById(dict.getId());
+        dictDataMapper.updateDictDataType(oldDict.getDictType(), dict.getDictType());
+        int row = baseMapper.updateById(dict);
         if (row > 0) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
-            DictUtils.setDictCache(dictType.getDictType(), dictDatas);
+            DictUtils.removeDictCache(oldDict.getDictType());
+            return dictDataMapper.selectDictDataByType(dict.getDictType());
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**

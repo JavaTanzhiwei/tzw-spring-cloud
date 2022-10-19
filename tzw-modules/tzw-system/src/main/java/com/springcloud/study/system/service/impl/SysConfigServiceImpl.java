@@ -1,6 +1,5 @@
 package com.springcloud.study.system.service.impl;
 
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -8,8 +7,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springcloud.study.core.constant.CacheConstants;
 import com.springcloud.study.core.constant.UserConstants;
+import com.springcloud.study.core.exception.ServiceException;
 import com.springcloud.study.core.utils.StringUtils;
 import com.springcloud.study.mybatis.core.page.PageQuery;
+import com.springcloud.study.redis.utils.CacheUtils;
 import com.springcloud.study.redis.utils.RedisUtils;
 import com.springcloud.study.system.bean.po.SysConfig;
 import com.springcloud.study.system.bean.req.SysConfigReq;
@@ -17,10 +18,11 @@ import com.springcloud.study.system.bean.vo.SysConfigVo;
 import com.springcloud.study.system.mapper.SysConfigMapper;
 import com.springcloud.study.system.service.SysConfigService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -47,13 +49,14 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:51
      */
+    @CachePut(cacheNames = CacheConstants.SYS_CONFIG, key = "#config.configKey")
     @Override
-    public int insertConfig(SysConfig config) {
+    public String insertConfig(SysConfig config) {
         int insert = baseMapper.insert(config);
         if (insert > 0) {
-            RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+            return config.getConfigValue();
         }
-        return insert;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -61,13 +64,20 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:51
      */
+    @CachePut(cacheNames = CacheConstants.SYS_CONFIG, key = "#config.configKey")
     @Override
-    public int updateConfig(SysConfig config) {
-        int update = baseMapper.updateById(config);
-        if (update > 0) {
-            RedisUtils.setCacheObject(getCacheKey(config.getConfigKey()), config.getConfigValue());
+    public String updateConfig(SysConfig config) {
+        int row = 0;
+        if (config.getId() != null) {
+            row = baseMapper.updateById(config);
+        } else {
+            row = baseMapper.update(config, new LambdaQueryWrapper<SysConfig>()
+                    .eq(SysConfig::getConfigKey, config.getConfigKey()));
         }
-        return update;
+        if (row > 0) {
+            return config.getConfigValue();
+        }
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -79,9 +89,9 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public void deleteConfigByIds(String[] configIds) {
         Arrays.stream(configIds).forEach(item -> {
             SysConfig config = baseMapper.selectById(item);
-            baseMapper.deleteById(item);
-            RedisUtils.deleteObject(getCacheKey(config.getConfigKey()));
+            CacheUtils.evict(CacheConstants.SYS_CONFIG, config.getConfigKey());
         });
+        baseMapper.deleteBatchIds(Arrays.asList(configIds));
     }
 
     /**
@@ -89,17 +99,12 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      * 作   者: 谭志伟
      * 时   间: 2022/10/17 14:45
      */
+    @Cacheable(cacheNames = CacheConstants.SYS_CONFIG, key = "#configKey")
     @Override
     public String selectConfigByKey(String configKey) {
-        String configValue = Convert.toStr(RedisUtils.getCacheObject(getCacheKey(configKey)));
-        if (StrUtil.isNotEmpty(configValue)) {
-            return configValue;
-        }
-        LambdaQueryWrapper<SysConfig> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(StrUtil.isNotBlank(configKey), SysConfig::getConfigKey, configKey);
-        SysConfig retConfig = baseMapper.selectOne(wrapper);
+        SysConfig retConfig = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
+                .eq(SysConfig::getConfigKey, configKey));
         if (ObjectUtil.isNotNull(retConfig)) {
-            RedisUtils.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
             return retConfig.getConfigValue();
         }
         return StringUtils.EMPTY;
@@ -114,7 +119,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public void loadingConfigCache() {
         List<SysConfig> configList = baseMapper.selectList();
         configList.stream().forEach(item -> {
-            RedisUtils.setCacheObject(getCacheKey(item.getConfigKey()), item.getConfigValue());
+            CacheUtils.put(CacheConstants.SYS_CONFIG, item.getConfigKey(), item.getConfigValue());
         });
     }
 
@@ -125,9 +130,9 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      */
     @Override
     public void clearConfigCache() {
-        Collection<String> keys = RedisUtils.keys(CacheConstants.SYS_CONFIG_KEY + "*");
-        RedisUtils.deleteObject(keys);
+        CacheUtils.clear(CacheConstants.SYS_CONFIG);
     }
+
 
     /**
      * 方法描述: 重置参数缓存数据
@@ -156,14 +161,5 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
-    }
-
-    /**
-     * 方法描述: 设施参数配置的Redis的缓存Key
-     * 作   者: 谭志伟
-     * 时   间: 2022/10/17 14:31
-     */
-    private String getCacheKey(String configKey) {
-        return CacheConstants.SYS_CONFIG_KEY + configKey;
     }
 }

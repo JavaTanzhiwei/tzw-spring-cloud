@@ -29,12 +29,12 @@ public interface CacheConstants {
     /**
      * 参数管理 cache key
      */
-    String SYS_CONFIG_KEY = "sys_config:";
+    String SYS_CONFIG = "sys_config";
 
     /**
      * 字典管理 cache key
      */
-    String SYS_DICT_KEY = "sys_dict:";
+    String SYS_DICT = "sys_dict";
 
     /**
      * 登录账户密码错误次数 redis key

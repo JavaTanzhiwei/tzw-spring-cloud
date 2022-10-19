@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.springcloud.study.api.system.bean.po.SysDictData;
+import com.springcloud.study.core.constant.CacheConstants;
+import com.springcloud.study.core.exception.ServiceException;
 import com.springcloud.study.mybatis.core.page.PageQuery;
 import com.springcloud.study.security.utils.DictUtils;
 import com.springcloud.study.system.bean.req.SysDictDataReq;
@@ -11,6 +13,7 @@ import com.springcloud.study.system.bean.vo.SysDictDataVo;
 import com.springcloud.study.system.mapper.SysDictDataMapper;
 import com.springcloud.study.system.service.SysDictDataService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -55,14 +58,14 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 14:52
      */
+    @CachePut(cacheNames = CacheConstants.SYS_DICT, key = "#data.dictType")
     @Override
-    public int insertDictData(SysDictData dictData) {
-        int row = baseMapper.insert(dictData);
+    public List<SysDictData> insertDictData(SysDictData data) {
+        int row = baseMapper.insert(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = baseMapper.selectDictDataByType(dictData.getDictType());
-            DictUtils.setDictCache(dictData.getDictType(), dictDatas);
+            return baseMapper.selectDictDataByType(data.getDictType());
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 
     /**
@@ -70,13 +73,13 @@ public class SysDictDataServiceImpl extends ServiceImpl<SysDictDataMapper, SysDi
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 14:52
      */
+    @CachePut(cacheNames = CacheConstants.SYS_DICT, key = "#data.dictType")
     @Override
-    public int updateDictData(SysDictData dictData) {
-        int row = baseMapper.updateById(dictData);
+    public List<SysDictData> updateDictData(SysDictData data) {
+        int row = baseMapper.updateById(data);
         if (row > 0) {
-            List<SysDictData> dictDatas = baseMapper.selectDictDataByType(dictData.getDictType());
-            DictUtils.setDictCache(dictData.getDictType(), dictDatas);
+            return baseMapper.selectDictDataByType(data.getDictType());
         }
-        return row;
+        throw new ServiceException("操作失败");
     }
 }

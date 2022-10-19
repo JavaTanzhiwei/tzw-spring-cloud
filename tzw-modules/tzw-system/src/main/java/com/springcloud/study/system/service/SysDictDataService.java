@@ -9,6 +9,8 @@ import com.springcloud.study.system.bean.req.SysDictTypeReq;
 import com.springcloud.study.system.bean.vo.SysDictDataVo;
 import com.springcloud.study.system.bean.vo.SysDictTypeVo;
 
+import java.util.List;
+
 /**
  * 类 描 述: 字典数据 服务层
  * 作   者: 谭志伟
@@ -34,12 +36,12 @@ public interface SysDictDataService extends IService<SysDictData> {
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 14:52
      */
-    int insertDictData(SysDictData dictData);
+    List<SysDictData> insertDictData(SysDictData dictData);
 
     /**
      * 方法描述: 修改保存字典数据信息
      * 作   者: 谭志伟
      * 时   间: 2022/10/18 14:52
      */
-    int updateDictData(SysDictData dictData);
+    List<SysDictData> updateDictData(SysDictData dictData);
 }

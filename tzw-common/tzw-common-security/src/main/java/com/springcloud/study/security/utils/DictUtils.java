@@ -1,12 +1,9 @@
 package com.springcloud.study.security.utils;
 
-import cn.hutool.json.JSONArray;
 import com.springcloud.study.api.system.bean.po.SysDictData;
 import com.springcloud.study.core.constant.CacheConstants;
-import com.springcloud.study.core.utils.StringUtils;
-import com.springcloud.study.redis.utils.RedisUtils;
+import com.springcloud.study.redis.utils.CacheUtils;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -23,7 +20,7 @@ public class DictUtils {
      * @param dictDatas 字典数据列表
      */
     public static void setDictCache(String key, List<SysDictData> dictDatas) {
-        RedisUtils.setCacheObject(getCacheKey(key), dictDatas);
+        CacheUtils.put(CacheConstants.SYS_DICT, key, dictDatas);
     }
 
     /**
@@ -33,11 +30,7 @@ public class DictUtils {
      * @return dictDatas 字典数据列表
      */
     public static List<SysDictData> getDictCache(String key) {
-        JSONArray arrayCache = RedisUtils.getCacheObject(getCacheKey(key));
-        if (StringUtils.isNotNull(arrayCache)) {
-            return arrayCache.toList(SysDictData.class);
-        }
-        return null;
+        return CacheUtils.get(CacheConstants.SYS_DICT, key);
     }
 
     /**
@@ -46,24 +39,13 @@ public class DictUtils {
      * @param key 字典键
      */
     public static void removeDictCache(String key) {
-        RedisUtils.deleteObject(getCacheKey(key));
+        CacheUtils.evict(CacheConstants.SYS_DICT, key);
     }
 
     /**
      * 清空字典缓存
      */
     public static void clearDictCache() {
-        Collection<String> keys = RedisUtils.keys(CacheConstants.SYS_DICT_KEY + "*");
-        RedisUtils.deleteObject(keys);
-    }
-
-    /**
-     * 设置cache key
-     *
-     * @param configKey 参数键
-     * @return 缓存键key
-     */
-    public static String getCacheKey(String configKey) {
-        return CacheConstants.SYS_DICT_KEY + configKey;
+        CacheUtils.clear(CacheConstants.SYS_DICT);
     }
 }
