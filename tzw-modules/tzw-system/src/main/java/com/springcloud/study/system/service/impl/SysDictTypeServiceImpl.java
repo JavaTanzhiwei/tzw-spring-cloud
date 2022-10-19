@@ -21,10 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -160,7 +157,7 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     public int insertDictType(SysDictType dictType) {
         int row = baseMapper.insert(dictType);
         if (row > 0) {
-            DictUtils.setDictCache(dictType.getDictType(), null);
+            DictUtils.setDictCache(dictType.getDictType(), new ArrayList<>());
         }
         return row;
     }
