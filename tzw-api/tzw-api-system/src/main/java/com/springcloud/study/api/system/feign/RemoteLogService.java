@@ -23,7 +23,7 @@ public interface RemoteLogService {
      * 作   者: 谭志伟
      * 时   间: 2022/9/28 15:51
      */
-    @PostMapping("sys/log/operation")
+    @PostMapping("log/operation")
     AjaxResult saveLogOperation(@RequestBody SysOperLogOperation operLogOperation);
 
     /**
@@ -31,6 +31,6 @@ public interface RemoteLogService {
      * 作   者: 谭志伟
      * 时   间: 2022/9/28 15:51
      */
-    @PostMapping("sys/log/login")
+    @PostMapping("log/login")
     AjaxResult saveLogLogin(@RequestBody SysOperLogLogin operLogLogin);
 }
