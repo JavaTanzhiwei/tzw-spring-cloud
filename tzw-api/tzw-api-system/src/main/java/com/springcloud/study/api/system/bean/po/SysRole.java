@@ -46,13 +46,13 @@ public class SysRole extends BasePo {
      * 作   者: 谭志伟
      * 时   间: 2022/10/14 10:05
      */
-    private boolean menuCheckStrictly;
+    private Boolean menuCheckStrictly;
     /**
      * 属性描述: 部门树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ）
      * 作   者: 谭志伟
      * 时   间: 2022/10/14 10:05
      */
-    private boolean deptCheckStrictly;
+    private Boolean deptCheckStrictly;
     /**
      * 属性描述: 角色状态（0正常 1停用）
      * 作   者: 谭志伟
