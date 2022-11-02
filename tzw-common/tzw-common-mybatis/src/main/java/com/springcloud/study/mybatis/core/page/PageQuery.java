@@ -16,7 +16,6 @@ import java.io.Serializable;
  */
 @Data
 public class PageQuery implements Serializable {
-
     private static final long serialVersionUID = 8713451912215206712L;
 
     /**
