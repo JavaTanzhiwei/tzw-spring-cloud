@@ -30,7 +30,6 @@ public class SysUserController {
     private final SysUserService userService;
     private final KafkaConfig kafkaConfig;
 
-
     /**
      * 方法描述: 获取用户列表数据
      * 作   者: 谭志伟
